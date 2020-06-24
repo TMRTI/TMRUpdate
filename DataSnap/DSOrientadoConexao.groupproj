@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9326457C-3592-40CA-84CC-3E8178DB50DD}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Server\ServerOrientadoConexaoSA.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Client\ClientOrientadoConexao.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ServerOrientadoConexaoSA">
+        <MSBuild Projects="Server\ServerOrientadoConexaoSA.dproj"/>
+    </Target>
+    <Target Name="ServerOrientadoConexaoSA:Clean">
+        <MSBuild Projects="Server\ServerOrientadoConexaoSA.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServerOrientadoConexaoSA:Make">
+        <MSBuild Projects="Server\ServerOrientadoConexaoSA.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ClientOrientadoConexao">
+        <MSBuild Projects="Client\ClientOrientadoConexao.dproj"/>
+    </Target>
+    <Target Name="ClientOrientadoConexao:Clean">
+        <MSBuild Projects="Client\ClientOrientadoConexao.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ClientOrientadoConexao:Make">
+        <MSBuild Projects="Client\ClientOrientadoConexao.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ServerOrientadoConexaoSA;ClientOrientadoConexao"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ServerOrientadoConexaoSA:Clean;ClientOrientadoConexao:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ServerOrientadoConexaoSA:Make;ClientOrientadoConexao:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
