@@ -8,6 +8,7 @@ object ServerMethodsExemplo: TServerMethodsExemplo
       'Password=masterkey'
       'User_Name=SYSDBA'
       'DriverID=FB')
+    Connected = True
     LoginPrompt = False
     Left = 72
     Top = 48
@@ -43,5 +44,48 @@ object ServerMethodsExemplo: TServerMethodsExemplo
     BeforeUpdateRecord = dspPaisBeforeUpdateRecord
     Left = 72
     Top = 176
+  end
+  object dtsPais: TDataSource
+    DataSet = qryPais
+    Left = 144
+    Top = 112
+  end
+  object qryPaisPopulacao: TFDQuery
+    IndexFieldNames = 'ID_PAIS'
+    MasterSource = dtsPais
+    MasterFields = 'ID'
+    DetailFields = 'ID_PAIS'
+    Connection = conBD
+    SQL.Strings = (
+      'select'
+      '  ID'
+      ' ,ID_PAIS'
+      ' ,ANO'
+      ' ,POPULACAO'
+      'FROM'
+      '  PAIS_POPULACAO')
+    Left = 144
+    Top = 176
+    object qryPaisPopulacaoID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qryPaisPopulacaoID_PAIS: TIntegerField
+      FieldName = 'ID_PAIS'
+      Origin = 'ID_PAIS'
+      Required = True
+    end
+    object qryPaisPopulacaoANO: TSmallintField
+      FieldName = 'ANO'
+      Origin = 'ANO'
+      Required = True
+    end
+    object qryPaisPopulacaoPOPULACAO: TLargeintField
+      FieldName = 'POPULACAO'
+      Origin = 'POPULACAO'
+      Required = True
+    end
   end
 end

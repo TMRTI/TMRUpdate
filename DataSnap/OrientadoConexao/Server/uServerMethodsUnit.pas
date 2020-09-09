@@ -15,8 +15,16 @@ type
     dspPais: TDataSetProvider;
     qryPaisID: TIntegerField;
     qryPaisNOME: TStringField;
+    dtsPais: TDataSource;
+    qryPaisPopulacao: TFDQuery;
+    qryPaisPopulacaoID: TIntegerField;
+    qryPaisPopulacaoID_PAIS: TIntegerField;
+    qryPaisPopulacaoANO: TSmallintField;
+    qryPaisPopulacaoPOPULACAO: TLargeintField;
     procedure dspPaisBeforeUpdateRecord(Sender: TObject; SourceDS: TDataSet; DeltaDS: TCustomClientDataSet; UpdateKind: TUpdateKind;
       var Applied: Boolean);
+  strict private
+    FUltimoIDPais: Int32;
   private
     { Private declarations }
   public
@@ -33,11 +41,28 @@ procedure TServerMethodsExemplo.dspPaisBeforeUpdateRecord(Sender: TObject; Sourc
   var Applied: Boolean);
 var
   lFieldID: TField;
+  lFieldIDPais: TField;
 begin
   if UpdateKind = TUpdateKind.ukInsert then
   begin
-    lFieldID := DeltaDS.FieldByName(qryPaisID.FieldName);
-    lFieldID.NewValue := conBD.ExecSQLScalar('select gen_id(GEN_PAIS_ID, 1) from RDB$DATABASE');
+    if SourceDS = qryPais then
+    begin
+      lFieldID := DeltaDS.FieldByName(qryPaisID.FieldName);
+      FUltimoIDPais := conBD.ExecSQLScalar('select gen_id(GEN_PAIS_ID, 1) from RDB$DATABASE');
+      lFieldID.NewValue := FUltimoIDPais;
+    end else if SourceDS = qryPaisPopulacao then
+    {#dica: todos as operações de dados (mestre e detalhe) passam pelo BeforeUpdateRecord do DSP,
+      use o SourceDS para identificar qual o dataset que está sendo manipulado no momento.}
+    begin
+      lFieldID := DeltaDS.FieldByName(qryPaisPopulacaoID.FieldName);
+      lFieldID.NewValue := conBD.ExecSQLScalar('select gen_id(GEN_PAIS_POPULACAO_ID, 1) from RDB$DATABASE');
+      lFieldIDPais := DeltaDS.FieldByName(qryPaisPopulacaoID_PAIS.FieldName);
+
+      if lFieldIDPais.AsInteger <= 0 then
+      begin
+        lFieldIDPais.NewValue := FUltimoIDPais;
+      end;
+    end;
   end;
 end;
 

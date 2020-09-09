@@ -25,14 +25,26 @@ type
     btnConexao: TButton;
     btnPais: TButton;
     btnAplicarManualmente: TButton;
+    cdsPaisqryPaisPopulacao: TDataSetField;
+    cdsPaisPopulacao: TClientDataSet;
+    cdsPaisPopulacaoID: TIntegerField;
+    cdsPaisPopulacaoID_PAIS: TIntegerField;
+    cdsPaisPopulacaoANO: TSmallintField;
+    cdsPaisPopulacaoPOPULACAO: TLargeintField;
+    dtsPaisPopulacao: TDataSource;
+    DBGrid1: TDBGrid;
     procedure cdsPaisIDGetText(Sender: TField; var Text: string; DisplayText: Boolean);
     procedure cdsPaisNewRecord(DataSet: TDataSet);
     procedure btnConexaoClick(Sender: TObject);
     procedure btnPaisClick(Sender: TObject);
     procedure cdsPaisReconcileError(DataSet: TCustomClientDataSet; E: EReconcileError; UpdateKind: TUpdateKind; var Action: TReconcileAction);
     procedure btnAplicarManualmenteClick(Sender: TObject);
+    procedure cdsPaisPopulacaoNewRecord(DataSet: TDataSet);
+    procedure cdsPaisBeforeDelete(DataSet: TDataSet);
   strict private
     FNovoID: Int32;
+
+    function GetNovoID: Int32;
   private
     { Private declarations }
   public
@@ -74,6 +86,22 @@ begin
   end;
 end;
 
+procedure TfrmPrincipalClient.cdsPaisBeforeDelete(DataSet: TDataSet);
+begin
+  cdsPais.Edit;
+
+  try
+    while not cdsPaisPopulacao.IsEmpty do
+    begin
+      cdsPaisPopulacao.Delete;
+    end;
+    cdsPais.Post;
+  except
+    cdsPais.Cancel;
+    raise;
+  end;
+end;
+
 procedure TfrmPrincipalClient.cdsPaisIDGetText(Sender: TField; var Text: string; DisplayText: Boolean);
 begin
   if Sender.AsInteger <= 0 then
@@ -87,8 +115,13 @@ end;
 
 procedure TfrmPrincipalClient.cdsPaisNewRecord(DataSet: TDataSet);
 begin
-  Dec(FNovoID);
-  cdsPaisID.AsInteger := FNovoID;
+  cdsPaisID.AsInteger := GetNovoID;
+end;
+
+procedure TfrmPrincipalClient.cdsPaisPopulacaoNewRecord(DataSet: TDataSet);
+begin
+  cdsPaisPopulacaoID.AsInteger := GetNovoID;
+  cdsPaisPopulacaoID_PAIS.AsInteger := cdsPaisID.AsInteger;
 end;
 
 procedure TfrmPrincipalClient.cdsPaisReconcileError(DataSet: TCustomClientDataSet; E: EReconcileError; UpdateKind: TUpdateKind;
@@ -96,6 +129,12 @@ procedure TfrmPrincipalClient.cdsPaisReconcileError(DataSet: TCustomClientDataSe
 begin
   MessageDlg('Erro ao salvar registro.' + E.Message, mtError, [mbOK], 0);
   Action := TReconcileAction.raAbort;
+end;
+
+function TfrmPrincipalClient.GetNovoID: Int32;
+begin
+  Dec(FNovoID);
+  Result := FNovoID;
 end;
 
 end.

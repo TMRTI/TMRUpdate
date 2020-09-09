@@ -17,7 +17,7 @@ object frmPrincipalClient: TfrmPrincipalClient
     Left = 0
     Top = 0
     Width = 701
-    Height = 287
+    Height = 209
     Align = alClient
     DataSource = dtsPais
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -27,14 +27,26 @@ object frmPrincipalClient: TfrmPrincipalClient
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ID'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Visible = True
+      end>
   end
   object pnlDados: TPanel
     Left = 0
-    Top = 312
+    Top = 234
     Width = 701
     Height = 115
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 312
     object lblCodigo: TLabel
       Left = 24
       Top = 8
@@ -99,13 +111,39 @@ object frmPrincipalClient: TfrmPrincipalClient
   end
   object dbnPais: TDBNavigator
     Left = 0
-    Top = 287
+    Top = 209
     Width = 701
     Height = 25
     DataSource = dtsPais
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
     Align = alBottom
     TabOrder = 1
+    ExplicitTop = 287
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 349
+    Width = 701
+    Height = 78
+    Align = alBottom
+    DataSource = dtsPaisPopulacao
+    TabOrder = 3
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ANO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'POPULACAO'
+        Visible = True
+      end>
   end
   object conDS: TSQLConnection
     DriverName = 'DataSnap'
@@ -135,6 +173,7 @@ object frmPrincipalClient: TfrmPrincipalClient
     Params = <>
     ProviderName = 'dspPais'
     RemoteServer = dspServerMethodsExemplo
+    BeforeDelete = cdsPaisBeforeDelete
     OnNewRecord = cdsPaisNewRecord
     OnReconcileError = cdsPaisReconcileError
     Left = 72
@@ -155,10 +194,49 @@ object frmPrincipalClient: TfrmPrincipalClient
       Required = True
       Size = 32
     end
+    object cdsPaisqryPaisPopulacao: TDataSetField
+      FieldName = 'qryPaisPopulacao'
+    end
   end
   object dtsPais: TDataSource
     DataSet = cdsPais
     Left = 72
+    Top = 224
+  end
+  object cdsPaisPopulacao: TClientDataSet
+    Aggregates = <>
+    DataSetField = cdsPaisqryPaisPopulacao
+    Params = <>
+    OnNewRecord = cdsPaisPopulacaoNewRecord
+    Left = 144
+    Top = 168
+    object cdsPaisPopulacaoID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+    end
+    object cdsPaisPopulacaoID_PAIS: TIntegerField
+      FieldName = 'ID_PAIS'
+      Origin = 'ID_PAIS'
+      Required = True
+    end
+    object cdsPaisPopulacaoANO: TSmallintField
+      DisplayLabel = 'Ano'
+      FieldName = 'ANO'
+      Origin = 'ANO'
+      Required = True
+    end
+    object cdsPaisPopulacaoPOPULACAO: TLargeintField
+      DisplayLabel = 'Popula'#231#227'o'
+      FieldName = 'POPULACAO'
+      Origin = 'POPULACAO'
+      Required = True
+      DisplayFormat = '0,'
+    end
+  end
+  object dtsPaisPopulacao: TDataSource
+    DataSet = cdsPaisPopulacao
+    Left = 144
     Top = 224
   end
 end

@@ -1,0 +1,14 @@
+DataSnap REST Messaging Protocol:
+http://docwiki.embarcadero.com/RADStudio/Rio/en/DataSnap_REST_Messaging_Protocol
+
+
+Como configurar o IIS para rodar ISAPI do DataSnap:
+http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Tutorial:_DataSnap_Application_Using_an_ISAPI_DLL_Server#Configuring_your_development_environment
+
+
+Desing de interfaces REST:
+https://www.youtube.com/watch?v=psLrAsdHltQ&feature=youtu.be
+
+
+Dica de padrões para integridade de recursos:
+https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers/If-Match
