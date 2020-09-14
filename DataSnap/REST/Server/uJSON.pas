@@ -52,6 +52,28 @@ begin
       Result := TJSONNumber.Create(pValue.AsOrdinal);
     tkString, tkUString:
       Result := TJSONString.Create(pValue.AsString);
+    tkRecord:
+      if pValue.TypeInfo = TypeInfo(TGUID) then
+      begin
+        Result := TJSONString.Create(pValue.AsType<TGUID>.ToString);
+      end else
+      begin
+        raise Exception.CreateFmt('Tipo não previsto ao converter record para JSON (%s).', [GetTypeName(pValue.TypeInfo)]);
+      end;
+    tkEnumeration:
+      if pValue.TypeInfo = TypeInfo(Boolean) then
+      begin
+        if pValue.AsBoolean then
+        begin
+          Result := TJSONTrue.Create;
+        end else
+        begin
+          Result := TJSONFalse.Create;
+        end;
+      end else
+      begin
+        raise Exception.CreateFmt('Tipo não previsto ao converter emnumerado para JSON (%s).', [GetTypeName(pValue.TypeInfo)]);
+      end;
   else
     raise Exception.CreateFmt('Tipo não previsto ao converter item para JSON (%s).', [GetEnumname(TypeInfo(TTypeKind), Integer(pValue.Kind))]);
   end;
@@ -106,6 +128,24 @@ begin
       Result := TValue.From<Int32>((pValor as TJSONNumber).AsInt);
     tkString, tkUString:
       Result := TValue.From<string>((pValor as TJSONString).Value);
+    tkRecord:
+      if pTipoEsperado = TypeInfo(TGUID) then
+      begin
+        Result := TValue.From<TGUID>(TGUID.Create((pValor as TJSONString).Value))
+      end else
+      begin
+        raise Exception.CreateFmt('Tipo de record (%s) não esperado ao converter um valor JSON.', [GetTypeName(pTipoEsperado)]);
+      end;
+    tkEnumeration:
+      if pTipoEsperado = TypeInfo(Boolean) then
+      begin
+        Result := TValue.From<Boolean>(pValor is TJSONTrue);
+      end else
+      begin
+        raise Exception.CreateFmt('Tipo de enumerado (%s) não esperado ao converter um valor JSON.', [GetTypeName(pTipoEsperado)]);
+      end;
+  else
+    raise Exception.CreateFmt('Tipo de dado (%s) não esperado ao converter um valor JSON.', [GetTypeName(pTipoEsperado)]);
   end;
 end;
 

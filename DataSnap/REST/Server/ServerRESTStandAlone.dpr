@@ -6,10 +6,10 @@ uses
   Web.WebReq,
   IdHTTPWebBrokerBridge,
   fPrincipalServer in 'fPrincipalServer.pas' {Form1},
-  uSMCadastros in 'uSMCadastros.pas',
+  uSMVendas in 'uSMVendas.pas',
   dWebModule in 'dWebModule.pas' {WebModule1: TWebModule},
-  uRegraPaises in 'uRegraPaises.pas',
-  uDadosPais in 'uDadosPais.pas',
+  uRegraClientes in 'uRegraClientes.pas',
+  uDadosClientes in 'uDadosClientes.pas',
   dConexaoBD in 'dConexaoBD.pas' {dmdConexao: TDataModule},
   uJSON in 'uJSON.pas';
 

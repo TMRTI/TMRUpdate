@@ -33,7 +33,7 @@ implementation
 
 uses
   Web.WebReq,
-  uSMCadastros;
+  uSMVendas;
 
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
@@ -47,20 +47,31 @@ begin
 end;
 
 procedure TWebModule1.DSHTTPWebDispatcher1FormatResult(Sender: TObject; var ResultVal: TJSONValue; const Command: TDBXCommand; var Handled: Boolean);
-var
-  lArray: TJSONArray;
-  lRetornoAntigo: TJSONValue;
 begin
 {#dica: caso o método devolva somente um resultado, é possível reformatar o mesmo para que o resultado seja literal,
-  fora do objeto padrão do Delphi para o result}
+  fora do objeto padrão do Delphi para o result.
 
-  Handled := ResultVal is TJSONArray and (TJSONArray(ResultVal).Count = 1);
+  IMPORTANTE: formatar o resultado desta maneira pode fazer o gerador de classes proxies do Delphi parar de funcionar.}
+
+  Handled := ResultVal is TJSONArray;
+  if Handled then
+  begin
+    var lJSONArray :=  TJSONArray(ResultVal);
+
+    Handled := lJSONArray.Count = 1;
+
+    if Handled then
+    begin
+      ResultVal := lJSONArray.Remove(0);
+      lJSONArray.Free;
+    end;
+  end;
 end;
 
 procedure TWebModule1.DSServerClass1GetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
-  PersistentClass := uSMCadastros.Cadastros;
+  PersistentClass := uSMVendas.Vendas;
 end;
 
 initialization

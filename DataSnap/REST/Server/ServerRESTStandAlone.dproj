@@ -101,14 +101,14 @@
             <Form>Form1</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="uSMCadastros.pas"/>
+        <DCCReference Include="uSMVendas.pas"/>
         <DCCReference Include="dWebModule.pas">
             <Form>WebModule1</Form>
             <FormType>dfm</FormType>
             <DesignClass>TWebModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="uRegraPaises.pas"/>
-        <DCCReference Include="uDadosPais.pas"/>
+        <DCCReference Include="uRegraClientes.pas"/>
+        <DCCReference Include="uDadosClientes.pas"/>
         <DCCReference Include="dConexaoBD.pas">
             <Form>dmdConexao</Form>
             <FormType>dfm</FormType>

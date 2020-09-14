@@ -1,4 +1,3 @@
-/* Definition for the `GEN_PAIS_ID` generator :  */
 
 CREATE GENERATOR GEN_PAIS_ID;
 
@@ -58,9 +57,30 @@ END^
 
 SET TERM ; ^
 
+/* Definition for the `GUID` domain :  */
+
+CREATE DOMAIN GUID AS
+  CHAR(16) CHARACTER SET OCTETS;
+
+/* Structure for the `CLIENTE` table :  */
+
+CREATE TABLE CLIENTE (
+  ID GUID NOT NULL,
+  NOME VARCHAR(64),
+  ATIVO CHAR(1));
+
+
+ALTER TABLE CLIENTE ADD PRIMARY KEY (ID);
+
 /* Structure for the `PAIS_POPULACAO` table :  */
 
 ALTER TABLE PAIS_POPULACAO ADD CONSTRAINT FK_PAIS_POPULACAO FOREIGN KEY (ID_PAIS) REFERENCES PAIS(ID);
+
+/* Privileges for the `CLIENTE` :  */
+
+
+GRANT SELECT, INSERT, DELETE, REFERENCES, UPDATE ON CLIENTE TO SYSDBA WITH GRANT OPTION;
+
 
 /* Privileges for the `PAIS` :  */
 
