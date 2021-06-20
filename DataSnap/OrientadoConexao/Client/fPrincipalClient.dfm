@@ -46,7 +46,6 @@ object frmPrincipalClient: TfrmPrincipalClient
     Height = 115
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 312
     object lblCodigo: TLabel
       Left = 24
       Top = 8
@@ -118,7 +117,6 @@ object frmPrincipalClient: TfrmPrincipalClient
     VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast, nbInsert, nbDelete, nbEdit, nbPost, nbCancel, nbRefresh, nbApplyUpdates, nbCancelUpdates]
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 287
   end
   object DBGrid1: TDBGrid
     Left = 0

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{72332C80-C74D-486F-885D-BB82BE94E5EC}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Server\ServerRESTStandAlone.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Server\ServerRESTIIS.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ServerRESTStandAlone">
+        <MSBuild Projects="Server\ServerRESTStandAlone.dproj"/>
+    </Target>
+    <Target Name="ServerRESTStandAlone:Clean">
+        <MSBuild Projects="Server\ServerRESTStandAlone.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServerRESTStandAlone:Make">
+        <MSBuild Projects="Server\ServerRESTStandAlone.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ServerRESTIIS">
+        <MSBuild Projects="Server\ServerRESTIIS.dproj"/>
+    </Target>
+    <Target Name="ServerRESTIIS:Clean">
+        <MSBuild Projects="Server\ServerRESTIIS.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServerRESTIIS:Make">
+        <MSBuild Projects="Server\ServerRESTIIS.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ServerRESTStandAlone;ServerRESTIIS"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ServerRESTStandAlone:Clean;ServerRESTIIS:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ServerRESTStandAlone:Make;ServerRESTIIS:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

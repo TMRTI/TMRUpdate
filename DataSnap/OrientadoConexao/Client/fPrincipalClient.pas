@@ -63,13 +63,20 @@ uses
 
 procedure TfrmPrincipalClient.btnConexaoClick(Sender: TObject);
 begin
-  try
-    conDS.Close;
-  except
-    // este é um dos poucos casos que eu conheço que deve ter um except vazio
-  end;
+  if conDS.Connected then
+  begin
+    try
+      conDS.Close;
+    except
+      // este é um dos poucos casos que eu conheço que deve ter um except vazio
+    end;
 
-  conDS.Open;
+    ShowMessage('desconectou');
+  end else
+  begin
+    conDS.Open;
+    ShowMessage('conectou');
+  end;
 end;
 
 procedure TfrmPrincipalClient.btnPaisClick(Sender: TObject);

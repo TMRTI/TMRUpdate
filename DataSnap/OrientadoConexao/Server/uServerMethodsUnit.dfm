@@ -8,7 +8,6 @@ object ServerMethodsExemplo: TServerMethodsExemplo
       'Password=masterkey'
       'User_Name=SYSDBA'
       'DriverID=FB')
-    Connected = True
     LoginPrompt = False
     Left = 72
     Top = 48
